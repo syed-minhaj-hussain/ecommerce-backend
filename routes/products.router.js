@@ -1,4 +1,5 @@
 const express = require("express");
+const { extend } = require("lodash");
 const { Product } = require("../models/product.model");
 const { getProductById } = require("../middlewares");
 const router = express.Router();
@@ -35,10 +36,32 @@ router
   });
 
 router.param("productId", getProductById);
-router.route("/:productId").get((req, res) => {
-  let { product } = req;
-  product.__v = undefined;
-  res.status(201).json({ product, success: true });
-});
+router
+  .route("/:productId")
+  .get((req, res) => {
+    let { product } = req;
+    product.__v = undefined;
+    res.status(201).json({ product, success: true });
+  })
+  .post(async (req, res) => {
+    let { product } = req;
+    const updatedProductDetail = req.body;
+    console.log(updatedProductDetail);
+    product = extend(product, updatedProductDetail);
+    product = await product.save();
+    res.status(200).json({
+      success: true,
+      message: "Product Successfully Updated!",
+    });
+  })
+  .delete(async (req, res) => {
+    let { product } = req;
+    const deletedProduct = await product.remove();
+    res.status(200).json({
+      success: true,
+      message: "Product Successfully Deleted",
+      deletedProduct,
+    });
+  });
 
 module.exports = { router };

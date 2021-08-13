@@ -17,7 +17,6 @@ const getProductById = async (req, res, next, productId) => {
         .status(400)
         .json({ success: false, message: "Product Not Found!" });
     }
-    console.log(product);
     req.product = product;
     next();
   } catch (err) {
