@@ -1,6 +1,6 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const { Product } = require("../models/product.model");
+const { getProductById } = require("../middlewares");
 const router = express.Router();
 
 router
@@ -8,7 +8,6 @@ router
   .get(async (req, res) => {
     try {
       const products = await Product.find({});
-      console.log(products);
       if (!products) {
         return res
           .status(404)
@@ -24,15 +23,22 @@ router
   .post(async (req, res) => {
     try {
       const newProduct = req.body;
-      console.log(newProduct);
       const addProduct = new Product(newProduct);
       const productAdded = await addProduct.save();
       res.status(200).json({ productAdded, success: true });
     } catch (err) {
+      console.log({ err });
       res
         .status(400)
         .json({ success: false, message: "Something Went Wrong!" });
     }
   });
+
+router.param("productId", getProductById);
+router.route("/:productId").get((req, res) => {
+  let { product } = req;
+  product.__v = undefined;
+  res.status(201).json({ product, success: true });
+});
 
 module.exports = { router };
