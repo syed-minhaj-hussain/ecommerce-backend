@@ -4,7 +4,7 @@
   "description": "It handles all the api's for the E-commerce Application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
