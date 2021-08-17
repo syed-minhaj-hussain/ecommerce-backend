@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { Product } = require("../models/product.model");
 const { findProductById } = require("../middlewares/findProductById");
-
+const { authVerify } = require("../middlewares/authVerify");
 router
   .route("/")
   .get(async (req, res) => {
@@ -20,7 +20,7 @@ router
       res.status(400).json({ success: false, message: "products not found" });
     }
   })
-  .post(async (req, res) => {
+  .post(authVerify, async (req, res) => {
     const newProduct = req.body;
     const product = new Product(newProduct);
     try {
@@ -47,7 +47,7 @@ router
     console.log(product);
     res.json({ product });
   })
-  .post(async (req, res) => {
+  .post(authVerify, async (req, res) => {
     let { product } = req;
     const updatedProductDetail = req.body;
     try {
@@ -62,7 +62,7 @@ router
       res.status(400).json({ success: false, message: "products not found" });
     }
   })
-  .delete(async (req, res) => {
+  .delete(authVerify, async (req, res) => {
     let { product } = req;
     try {
       const deletedProduct = await product.remove();
