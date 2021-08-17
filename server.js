@@ -4,6 +4,8 @@ const { startConnection } = require("./db.connect");
 require("dotenv").config();
 
 const { router: productsRouter } = require("./routes/products.router");
+const { router: signInRouter } = require("./routes/login.router");
+const { router: signUpRouter } = require("./routes/register.router");
 const { routeNotFound } = require("./middlewares/route-not-found");
 const { errorHandler } = require("./middlewares/error-handler");
 
@@ -16,6 +18,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/products", productsRouter);
+app.use("/login", signInRouter);
+app.use("/register", signUpRouter);
 
 app.get("/", (req, res) => res.json("Hello World"));
 
