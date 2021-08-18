@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const CartSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
-  productID: { type: String },
   name: String,
   description: String,
   intro: String,

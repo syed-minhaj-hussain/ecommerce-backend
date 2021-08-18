@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { authVerify } = require("../middlewares/authVerify");
 const { Cart } = require("../models/cart.model");
-const { findCartItemById } = require("../middlewares/findCartItemById");
+// const { findCartItemById } = require("../middlewares/findCartItemById");
 
 router.use("/", authVerify);
 router
@@ -41,36 +41,52 @@ router
     }
   });
 
-router.param("cartId", findCartItemById);
+// router.param("cartId", findCartItemById);
 router
   .route("/:cartId")
-  .get((req, res) => {
-    const { cartItem } = req;
-    res.status(200).json({ cartItem });
-  })
-  .post(async (req, res) => {
-    let { cartItem } = req;
+  .get(async (req, res) => {
+    const { cartId } = req.params;
+    const { user: cartUser } = req;
     try {
-      const updatedItemDetail = req.body;
-      cartItem = extend(cartItem, updatedItemDetail);
-      const saveProduct = await cartItem.save();
+      console.log({ cartUser, cartId });
+      const cartItem = await Cart.findOne({ _id: cartId, user: cartUser._id });
+      console.log({ cartItem });
+      res.status(200).json({ cartItem });
+    } catch (err) {
+      res.status(400).json({ success: false, message: "Something Went Wrong" });
+    }
+  })
+  .patch(async (req, res) => {
+    const { cartId } = req.params;
+    const { user: cartUser } = req;
+    const { quantity } = req.body;
+    try {
+      console.log({ cartUser, cartId, quantity });
+      const updateCartItem = await Cart.updateOne(
+        {
+          _id: cartId,
+          user: cartUser._id,
+        },
+        { $set: { quantity } }
+      );
       res.status(200).json({
         success: true,
-        saveProduct,
+        updateCartItem,
         message: "Product Updated Successfully",
       });
     } catch (err) {
       res.status(400).json({ success: false, message: "Something Went Wrong" });
     }
   })
-  .delete(authVerify, async (req, res) => {
-    let { cartItem } = req;
-    const {
-      user: { _id },
-    } = req;
-    console.log("try");
+  .delete(async (req, res) => {
+    const { cartId } = req.params;
+    const { user: cartUser } = req;
+
     try {
-      await cartItem.remove();
+      await Cart.remove({
+        _id: cartId,
+        user: cartUser._id,
+      });
       res
         .status(200)
         .json({ success: true, message: "Product Removed Successfully" });
