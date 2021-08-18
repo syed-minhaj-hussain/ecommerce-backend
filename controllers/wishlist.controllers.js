@@ -49,29 +49,6 @@ const getSpecificWishlistItemController = async (req, res) => {
   }
 };
 
-const updateSpecificWishlistItemController = async (req, res) => {
-  const { wishlistId } = req.params;
-  const { user: wishlistUser } = req;
-  const { quantity } = req.body;
-  try {
-    console.log({ wishlistUser, wishlistId, quantity });
-    const updateWishlistItem = await Wishlist.updateOne(
-      {
-        _id: wishlistId,
-        user: wishlistUser._id,
-      },
-      { $set: { quantity } }
-    );
-    res.status(200).json({
-      success: true,
-      updateWishlistItem,
-      message: "Product Updated Successfully",
-    });
-  } catch (err) {
-    res.status(400).json({ success: false, message: "Something Went Wrong" });
-  }
-};
-
 const deleteSpecificWishlistItemController = async (req, res) => {
   const { wishlistId } = req.params;
   const { user: wishlistUser } = req;
@@ -92,6 +69,5 @@ module.exports = {
   getWishlistController,
   postWishlistItemController,
   getSpecificWishlistItemController,
-  updateSpecificWishlistItemController,
   deleteSpecificWishlistItemController,
 };

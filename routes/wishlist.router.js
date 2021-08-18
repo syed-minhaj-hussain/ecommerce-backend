@@ -6,7 +6,6 @@ const {
   getWishlistController,
   postWishlistItemController,
   getSpecificWishlistItemController,
-  updateSpecificWishlistItemController,
   deleteSpecificWishlistItemController,
 } = require("../controllers/wishlist.controllers");
 
@@ -17,7 +16,6 @@ router.route("/").get(getWishlistController).post(postWishlistItemController);
 router
   .route("/:wishlistId")
   .get(getSpecificWishlistItemController)
-  .patch(updateSpecificWishlistItemController)
   .delete(deleteSpecificWishlistItemController);
 
 module.exports = { router };
