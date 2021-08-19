@@ -19,6 +19,8 @@ startConnection();
 app.use(cors());
 app.use(express.json());
 
+const PORT = process.env.PORT || 8080;
+
 app.use("/products", productsRouter);
 app.use("/login", signInRouter);
 app.use("/register", signUpRouter);
