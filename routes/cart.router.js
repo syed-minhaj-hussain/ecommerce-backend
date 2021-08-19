@@ -10,14 +10,17 @@ const {
   deleteSpecificCartItemController,
 } = require("../controllers/cart.controllers");
 
-router.use("/", authVerify);
-router.route("/").get(getCartItemsController).post(postCartItemController);
+// router.use("/", authVerify);
+router
+  .route("/")
+  .get(authVerify, getCartItemsController)
+  .post(authVerify, postCartItemController);
 
 router
   .route("/:cartId")
-  .get(getSpecificCartItemController)
-  .patch(updateSpecificCartItemController)
-  .delete(deleteSpecificCartItemController);
+  .get(authVerify, getSpecificCartItemController)
+  .patch(authVerify, updateSpecificCartItemController)
+  .delete(authVerify, deleteSpecificCartItemController);
 
 module.exports = { router };
 

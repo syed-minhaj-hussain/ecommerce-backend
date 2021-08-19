@@ -11,11 +11,14 @@ const {
 
 router.use("/", authVerify);
 
-router.route("/").get(getWishlistController).post(postWishlistItemController);
+router
+  .route("/")
+  .get(authVerify, getWishlistController)
+  .post(authVerify, postWishlistItemController);
 
 router
   .route("/:wishlistId")
-  .get(getSpecificWishlistItemController)
-  .delete(deleteSpecificWishlistItemController);
+  .get(authVerify, getSpecificWishlistItemController)
+  .delete(authVerify, deleteSpecificWishlistItemController);
 
 module.exports = { router };
