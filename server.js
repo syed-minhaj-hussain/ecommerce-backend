@@ -12,7 +12,6 @@ const { routeNotFound } = require("./middlewares/route-not-found");
 const { errorHandler } = require("./middlewares/error-handler");
 
 const app = express();
-const PORT = 5000;
 
 startConnection();
 
