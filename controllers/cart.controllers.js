@@ -5,9 +5,9 @@ const getCartItemsController = async (req, res) => {
     user: { _id },
   } = req;
   try {
-    const cartItems = await Cart.find({ user: _id });
+    const cart = await Cart.find({ user: _id });
 
-    res.status(200).json(cartItems);
+    res.status(200).json(cart);
   } catch (err) {
     res.status(404).json({ success: false, message: "Cart Not Found" });
   }
