@@ -18,10 +18,12 @@ const postWishlistItemController = async (req, res) => {
     user: { _id },
   } = req;
   const product = req.body;
+
   try {
     if (product) {
       const itemCreated = new Wishlist({ ...product, user: _id });
-      const saveItemCreated = await itemCreated.save();
+      const saveItemCreated = await itemCreated.save({ user: _id });
+
       res.status(200).json({
         success: true,
         saveItemCreated,

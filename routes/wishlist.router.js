@@ -9,7 +9,7 @@ const {
   deleteSpecificWishlistItemController,
 } = require("../controllers/wishlist.controllers");
 
-router.use("/", authVerify);
+// router.use("/", authVerify);
 
 router
   .route("/")

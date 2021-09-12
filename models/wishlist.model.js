@@ -15,6 +15,8 @@ const wishlistSchema = new Schema(
     inStock: Boolean,
     fastDelivery: Boolean,
     quantity: Number,
+    prodId: String,
+    // wishlist: [],
   },
   { timestamps: { createdAt: "created_at" } }
 );
