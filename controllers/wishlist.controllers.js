@@ -52,11 +52,11 @@ const getSpecificWishlistItemController = async (req, res) => {
 };
 
 const deleteSpecificWishlistItemController = async (req, res) => {
-  const { wishlistId } = req.params;
+  const { prodName } = req.params;
   const { user: wishlistUser } = req;
   try {
     await Wishlist.remove({
-      _id: wishlistId,
+      name: prodName,
       user: wishlistUser._id,
     });
     res
