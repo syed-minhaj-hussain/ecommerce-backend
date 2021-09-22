@@ -8,6 +8,7 @@ const { router: signInRouter } = require("./routes/login.router");
 const { router: signUpRouter } = require("./routes/register.router");
 const { router: cartRouter } = require("./routes/cart.router");
 const { router: wishlistRouter } = require("./routes/wishlist.router");
+const { router: paymentRouter } = require("./routes/payment.router");
 const { routeNotFound } = require("./middlewares/route-not-found");
 const { errorHandler } = require("./middlewares/error-handler");
 
@@ -25,6 +26,7 @@ app.use("/login", signInRouter);
 app.use("/register", signUpRouter);
 app.use("/cart", cartRouter);
 app.use("/wishlist", wishlistRouter);
+app.use("/payment", paymentRouter);
 
 app.get("/", (req, res) => res.json("Hello World"));
 
