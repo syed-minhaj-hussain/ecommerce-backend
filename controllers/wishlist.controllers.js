@@ -55,10 +55,15 @@ const deleteSpecificWishlistItemController = async (req, res) => {
   const { wishlistId } = req.params;
   const { user: wishlistUser } = req;
   try {
-    await Wishlist.remove({
+    const itemDeleted = await Wishlist.findOneAndDelete({
       _id: wishlistId,
       user: wishlistUser._id,
     });
+    if (!itemDeleted) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
     res
       .status(200)
       .json({ success: true, message: "Product Removed Successfully" });
